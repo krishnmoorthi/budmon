@@ -3,63 +3,96 @@
  */
 package com.budmon.model;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.Set;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.GrantedAuthority;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+
 
 /**
- * @author kthangav
+ * @author krishnamoorthi
  *
  */
-@Configuration
-public class User extends org.springframework.security.core.userdetails.User {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+@Table(name = "user")
+@Entity
+public class User {
 	
-	private List<Ledger> ledgers;
-
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	private String username;
+	private String password;
+	
+	@Transient
+	private String passwordConfirm;
+	
+    @ManyToMany
+    private Set<Role> roles;
+	
 	/**
-	 * @param username
-	 * @param password
-	 * @param authorities
+	 * @return the id
 	 */
-	public User(String username, String password, Collection<? extends GrantedAuthority> authorities) {
-		super(username, password, authorities);
+	public Long getId() {
+		return id;
 	}
-
 	/**
-	 * @param username
-	 * @param password
-	 * @param enabled
-	 * @param accountNonExpired
-	 * @param credentialsNonExpired
-	 * @param accountNonLocked
-	 * @param authorities
+	 * @param id the id to set
 	 */
-	public User(String username, String password, boolean enabled, boolean accountNonExpired,
-			boolean credentialsNonExpired, boolean accountNonLocked,
-			Collection<? extends GrantedAuthority> authorities) {
-		super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
-		// TODO Auto-generated constructor stub
+	public void setId(Long id) {
+		this.id = id;
 	}
-
 	/**
-	 * @return the ledgers
+	 * @return the username
 	 */
-	public List<Ledger> getLedgers() {
-		return ledgers;
+	public String getUsername() {
+		return username;
 	}
-
 	/**
-	 * @param ledgers the ledgers to set
+	 * @param username the username to set
 	 */
-	public void setLedgers(List<Ledger> ledgers) {
-		this.ledgers = ledgers;
+	public void setUsername(String username) {
+		this.username = username;
 	}
-
+	/**
+	 * @return the password
+	 */
+	public String getPassword() {
+		return password;
+	}
+	/**
+	 * @param password the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	/**
+	 * @return the passwordConfirm
+	 */
+	public String getPasswordConfirm() {
+		return passwordConfirm;
+	}
+	/**
+	 * @param passwordConfirm the passwordConfirm to set
+	 */
+	public void setPasswordConfirm(String passwordConfirm) {
+		this.passwordConfirm = passwordConfirm;
+	}
+	/**
+	 * @return the roles
+	 */
+	public Set<Role> getRoles() {
+		return roles;
+	}
+	/**
+	 * @param roles the roles to set
+	 */
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
 }
